@@ -4,6 +4,8 @@
 - lightning fast PyQT5 front-end
 - super responsive CSV back-end
 
+    ![GameDB Application](/App.png)
+
 ### Ok... What the hell is this?
 
 - dumb try at making database because I am too lazy to learn how to use MySQL in python
