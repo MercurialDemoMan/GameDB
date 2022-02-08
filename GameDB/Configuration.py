@@ -29,9 +29,9 @@ class Configuration:
     def DatabasePath():
         
         if platform.system() == "Windows":
-            return "C:/users/" + getpass.getuser() + "/GameDB/"
+            return "C:/Users/" + getpass.getuser() + "/.GameDB/"
         elif platform.system() == "Linux" or platform.system() == "Darwin":
-            return "~/GameDB/"
+            return "~/.GameDB/"
         else:
             raise OSError("Running on an unknown platform")
         

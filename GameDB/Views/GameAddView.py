@@ -75,7 +75,10 @@ class GameAddView(QtWidgets.QDialog):
             src_path = files[0]
             dst_path = Configuration.ImageDatabasePath() + ntpath.basename(src_path)
             
-            shutil.copyfile(src_path, dst_path)
+            try:
+                shutil.copyfile(src_path, dst_path)
+            except Exception as e:
+                print(e)
             
             self.model.image_url = ntpath.basename(src_path)
             self.setImage(self.model.image_url)

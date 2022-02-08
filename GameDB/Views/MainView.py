@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # coding=utf-8
 
+from copy import copy
+import time
 import sys
 import os
-from copy import copy
 
 from PyQt5 import uic
 from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import QEvent
+from PyQt5.QtCore import Qt, QEvent, QSize, QObject, QThread, pyqtSignal, QMutex
 from PyQt5 import QtGui
 
 from GameDB.Repositories.GameRepository import GameRepository
@@ -17,6 +17,44 @@ from GameDB.Entities.GameEntity import GameEntity
 
 from GameDB.Configuration import Configuration
 
+class ListLoader(QThread):
+    
+    finished = pyqtSignal()
+    items = pyqtSignal(QtWidgets.QListWidgetItem)
+    length = pyqtSignal(int)
+    
+    def __init__(self, widget, db):
+        super(ListLoader, self).__init__()
+        self.widget = widget
+        self.db = db
+        self.thread_active = True
+    
+    def run(self):
+    
+        db_items = self.db.getAll()
+        
+        self.length.emit(len(db_items))
+        
+        db_items.sort(key=lambda x: x.name)
+        
+        for item in db_items:
+        
+            if not self.thread_active:
+                break
+                
+            qt_item = QtWidgets.QListWidgetItem()
+            qt_item.setText(item.name)
+            qt_item.setData(Qt.UserRole, item.ID)
+            if(item.image_url != ""):
+                qt_item.setIcon(QtGui.QIcon(QtGui.QPixmap(Configuration.ImageDatabasePath() + item.image_url)))
+                
+            self.widget.addItem(qt_item)
+        
+        self.finished.emit()
+    
+    def stop(self):
+        self.thread_active = False
+    
 class MainView(QtWidgets.QMainWindow):
 
     def _getUiPath(self, ui_file_name):
@@ -71,20 +109,21 @@ class MainView(QtWidgets.QMainWindow):
             
         return None
 
-    def fillListWidget(self, widget, db) -> int:
-        widget.clear()
-        
-        items = db.getAll()
-        
-        for item in items:
-            qt_item = QtWidgets.QListWidgetItem()
-            qt_item.setText(item.name)
-            qt_item.setData(Qt.UserRole, item.ID)
-            widget.addItem(qt_item)
+    def fillListWidget(self):
+    
+        if hasattr(self, "load_thread"):
+            self.load_thread.stop()
             
-        widget.sortItems()
+        current_widget = self.getListWidgetBasedOnTab()
+        current_db     = self.getDatabaseBasedOnTab()
         
-        return len(items)
+        current_widget.clear()
+        
+        self.load_thread = ListLoader(current_widget, current_db)
+        self.load_thread.length.connect(lambda length: self.getTotalLabelBasedOnTab().setText("Total: {}".format(length)))
+                
+        self.load_thread.start()
+        
 
     def __init__(self, finished_db, ongoing_db, dropped_db):
 
@@ -94,6 +133,7 @@ class MainView(QtWidgets.QMainWindow):
         self.ongoing_db  = ongoing_db
         self.dropped_db  = dropped_db
         self.prompt = None
+        self.add_item_mutex = QMutex()
         
         uic.loadUi(self._getUiPath('MainView.ui'), self)
         
@@ -119,6 +159,14 @@ class MainView(QtWidgets.QMainWindow):
         self.tabChanged(0)
                 
         self.show()
+            
+    def closeEvent(self, event):
+    
+        if hasattr(self, "load_thread"):
+            self.load_thread.stop()
+            self.load_thread.wait()
+            
+        #event.ignore()
             
     def eventFilter(self, watched, event):
         
@@ -160,17 +208,20 @@ class MainView(QtWidgets.QMainWindow):
         else:
             if db.save(new_model) is None:
                 print("fuck")
-            
+        
+        db.flush()
+        
         self.tabChanged(self.tabWidget.currentIndex())
         
-    
     def tabChanged(self, i):
 
-        num_items = self.fillListWidget(self.getListWidgetBasedOnTab(), self.getDatabaseBasedOnTab()) 
+        self.fillListWidget() 
+
+        #num_items = self.fillListWidget(self.getListWidgetBasedOnTab(), self.getDatabaseBasedOnTab()) 
         
-        label = self.getTotalLabelBasedOnTab()
+        #label = self.getTotalLabelBasedOnTab()
         
-        label.setText("Total: {}".format(num_items))
+        #label.setText("Total: {}".format(num_items))
             
             
         

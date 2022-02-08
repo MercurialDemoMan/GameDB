@@ -25,6 +25,11 @@ class GameRepository:
     
         self._db = CsvDatabase(Configuration.DatabasePath() + db_path)
         
+    def flush(self):
+        
+        if self._db is not None:
+            self._db.flush()
+        
     def close(self):
         
         if self._db is not None:
