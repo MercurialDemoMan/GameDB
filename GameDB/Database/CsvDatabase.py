@@ -60,7 +60,7 @@ class CsvDatabase:
     def open(self, csv_path: str):
         """open already created database"""
     
-        self._db = open(csv_path)
+        self._db = open(csv_path, "r")
             
         self._db_name = csv_path
             
@@ -68,7 +68,7 @@ class CsvDatabase:
         initialize_ids = False
             
         for entry in self._db:
-        
+            
             db_item = entry.rstrip("\n\r")
         
             cache_item = CsvDatabase.dbItemToCacheItem(db_item, self._separator)

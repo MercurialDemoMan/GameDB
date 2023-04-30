@@ -1,0 +1,110 @@
+body {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	background-color: #000;
+}
+
+#top {
+	height: 100px;
+	width: 980px;
+	z-index: 10;
+}
+#icon {
+	height: 100px;
+	width: 170px;
+	position: absolute;
+	z-index: 20;
+	text-align: center;
+}
+#container {
+	width: 980px;
+	margin-right: auto;
+	margin-left: auto;
+	margin-bottom: 15px;
+}
+#content {
+	width: 805px;
+	float: right;
+	border: 1px solid #B7B584;
+	padding: 1px;
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	color: #FFF;
+	background-image: url(images/content_back.jpg);
+}
+
+
+
+
+
+#navigation {
+	width: 170px;
+	float: left;
+	background-image: url(images/navigation_back.jpg);
+	background-repeat: no-repeat;
+}
+.nav01 {
+	background-image: url(images/nav01.png);
+	background-repeat: no-repeat;
+	background-position: 1px 0px;
+}
+.nav02 {
+	background-image: url(images/nav02.png);
+	background-repeat: no-repeat;
+	background-position: 1px 0px;
+}
+
+
+
+
+#main {
+	width: 980px;
+	background-color: #000;
+	float: left;
+	margin-bottom: 15px;
+}
+
+
+.imageborder {
+	border: 1px solid #dbdac1;
+	padding: 1px;
+	background-color: #000;
+}
+
+.gallery {
+	padding: 1px;
+	border: 1px solid #CCC;
+	margin-right: 1px;
+	margin-left: 1px;
+}
+
+.gallery:hover {
+	padding: 1px;
+	border: 1px solid #800000;
+}
+.nav03 {
+	background-image: url(images/nav03.png);
+	background-repeat: no-repeat;
+	background-position: 1px 0px;
+}
+.nav04 {
+	background-image: url(images/nav04.png);
+	background-repeat: no-repeat;
+	background-position: 1px 0px;
+}
+.nav05 {
+	background-image: url(images/nav05.png);
+	background-repeat: no-repeat;
+	background-position: 1px 0px;
+}
+.nav06 {
+	background-image: url(images/nav06.png);
+	background-repeat: no-repeat;
+	background-position: 1px 0px;
+}
+.pages {
+	font-family: Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	color: #999966;
+}

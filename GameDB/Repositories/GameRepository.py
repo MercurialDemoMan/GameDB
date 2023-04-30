@@ -16,13 +16,11 @@ class GameRepository:
         
         if db_path is not None:
             self.open(db_path)
-        
-    def create(db_path: str):
-        
-        CsvDatabase.create(db_path, GameDatabase.Scheme)
-        
-    def open(self, db_path: str):
     
+    def create(db_path: str):
+        CsvDatabase.create(db_path, GameRepository.Scheme)
+    
+    def open(self, db_path: str):
         self._db = CsvDatabase(Configuration.DatabasePath() + db_path)
         
     def flush(self):

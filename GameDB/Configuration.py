@@ -27,10 +27,11 @@ class Configuration:
             return None
         
     def DatabasePath():
-        
+
         if platform.system() == "Windows":
             return "C:/Users/" + getpass.getuser() + "/.GameDB/"
         elif platform.system() == "Linux" or platform.system() == "Darwin":
+            return "/run/media/kurosin/windows/Users/ShiroSin/.GameDB/"
             return "~/.GameDB/"
         else:
             raise OSError("Running on an unknown platform")
