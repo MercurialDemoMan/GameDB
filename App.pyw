@@ -16,6 +16,9 @@ def main(args):
     if not os.path.exists(Configuration.DatabasePath()):
         os.makedirs(Configuration.DatabasePath())
 
+    if not os.path.exists(Configuration.ImageDatabasePath()):
+        os.makedirs(Configuration.ImageDatabasePath())
+
     if not os.path.exists(Configuration.FinishedDatabasePath()):
         GameRepository.create("finished.csv")
         
