@@ -3,7 +3,7 @@
 
 import sys
 import os
-from PyQt5 import QtWidgets
+from PyQt6 import QtWidgets
 
 from GameDB.Views.MainView import MainView
 from GameDB.Repositories.GameRepository import GameRepository

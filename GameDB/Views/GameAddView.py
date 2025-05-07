@@ -7,11 +7,11 @@ import urllib.request
 import shutil
 import ntpath
 
-from PyQt5 import uic
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt
-from PyQt5.QtCore import QEvent
-from PyQt5 import QtGui
+from PyQt6 import uic
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt
+from PyQt6.QtCore import QEvent
+from PyQt6 import QtGui
 
 from GameDB.Repositories.GameRepository import GameRepository
 from GameDB.Entities.GameEntity import GameEntity

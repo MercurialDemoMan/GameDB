@@ -4,7 +4,7 @@
 import getpass
 import platform
 
-from PyQt5 import QtCore, QtGui
+from PyQt6 import QtCore, QtGui
 
 class Configuration:
 
@@ -31,8 +31,7 @@ class Configuration:
         if platform.system() == "Windows":
             return "C:/Users/" + getpass.getuser() + "/.GameDB/"
         elif platform.system() == "Linux" or platform.system() == "Darwin":
-            return "/run/media/kurosin/windows/Users/ShiroSin/.GameDB/"
-            return "~/.GameDB/"
+            return "/home/kurosin/.GameDB/"
         else:
             raise OSError("Running on an unknown platform")
         

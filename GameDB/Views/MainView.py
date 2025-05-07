@@ -6,10 +6,10 @@ import time
 import sys
 import os
 
-from PyQt5 import uic
-from PyQt5 import QtWidgets
-from PyQt5.QtCore import Qt, QEvent, QSize, QObject, QThread, pyqtSignal, QMutex
-from PyQt5 import QtGui
+from PyQt6 import uic
+from PyQt6 import QtWidgets
+from PyQt6.QtCore import Qt, QEvent, QSize, QObject, QThread, pyqtSignal, QMutex
+from PyQt6 import QtGui
 
 from GameDB.Repositories.GameRepository import GameRepository
 from GameDB.Views.GameAddView import GameAddView
@@ -52,7 +52,7 @@ class ListLoader(QThread):
             qt_item = QtWidgets.QListWidgetItem()
             qt_item.setText("{} - {} [{}]".format(item.name, item.rating, item.platform))
             #qt_item.setText(item.name + " - " + item.rating + " [ " + item.platform + "]")
-            qt_item.setData(Qt.UserRole, item.ID)
+            qt_item.setData(Qt.ItemDataRole.UserRole, item.ID)
             if(item.image_url != ""):
                 qt_item.setIcon(QtGui.QIcon(QtGui.QPixmap(Configuration.ImageDatabasePath() + item.image_url)))
                 
@@ -180,17 +180,17 @@ class MainView(QtWidgets.QMainWindow):
         self.droppedListWidget.setUniformItemSizes(True)
 
         self.sortersMenu = QtWidgets.QMenu(self)
-        action = QtWidgets.QAction(self.sorters[0].name, self)
+        action = QtGui.QAction(self.sorters[0].name, self)
         action.triggered.connect(lambda: self.setCurrentSorter(self.sorters[0]))
         self.sortersMenu.addAction(action)
-        action = QtWidgets.QAction(self.sorters[1].name, self)
+        action = QtGui.QAction(self.sorters[1].name, self)
         action.triggered.connect(lambda: self.setCurrentSorter(self.sorters[1]))
         self.sortersMenu.addAction(action)
-        action = QtWidgets.QAction(self.sorters[2].name, self)
+        action = QtGui.QAction(self.sorters[2].name, self)
         action.triggered.connect(lambda: self.setCurrentSorter(self.sorters[2]))
         self.sortersMenu.addAction(action)
         self.sortersToolButton.setMenu(self.sortersMenu)
-        self.sortersToolButton.setPopupMode(QtWidgets.QToolButton.InstantPopup)
+        self.sortersToolButton.setPopupMode(QtWidgets.QToolButton.ToolButtonPopupMode.InstantPopup)
         
         self.tabWidget.currentChanged.connect(self.tabChanged)
         self.tabChanged(0)
@@ -207,7 +207,7 @@ class MainView(QtWidgets.QMainWindow):
             
     def eventFilter(self, watched, event):
         
-        if event.type() == QEvent.KeyPress:
+        if event.type() == QEvent.Type.KeyPress:
             if event.key() == Qt.Key_Enter or event.key() == Qt.Key_Return:
                 
                 list_widget = self.getListWidgetBasedOnTab()
