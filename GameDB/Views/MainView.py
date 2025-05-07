@@ -63,6 +63,14 @@ class ListLoader(QThread):
     def stop(self):
         self.thread_active = False
     
+def parse_rating(x: str) -> int:
+    result = 0
+    try:
+        result = float(x.rating.split("/")[0])
+    except (ValueError, IndexError):
+        ...
+    return result
+
 class MainView(QtWidgets.QMainWindow):
 
     def _getUiPath(self, ui_file_name):
@@ -138,7 +146,7 @@ class MainView(QtWidgets.QMainWindow):
         self.load_thread.length.connect(lambda length: self.getTotalLabelBasedOnTab().setText("Total: {}".format(length)))
                 
         self.load_thread.start()
-        
+
     def __init__(self, finished_db, ongoing_db, dropped_db):
 
         super().__init__()
@@ -150,7 +158,7 @@ class MainView(QtWidgets.QMainWindow):
         self.add_item_mutex = QMutex()
         self.sorters = [
             Sorter("Name", lambda x: x.name, False),
-            Sorter("Rating", lambda x: float(x.rating.split("/")[0]), True),
+            Sorter("Rating", parse_rating, True),
             Sorter("Platform", lambda x: x.platform, False)
         ]
         self.current_sorter = self.sorters[0]
@@ -229,7 +237,7 @@ class MainView(QtWidgets.QMainWindow):
             new_model = GameEntity()
             old_model = copy(new_model)
         else:
-            new_model = db.getByID(item.data(Qt.UserRole))
+            new_model = db.getByID(item.data(Qt.ItemDataRole.UserRole))
             old_model = copy(new_model)
     
         self.prompt = GameAddView(new_model)

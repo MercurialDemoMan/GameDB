@@ -53,10 +53,10 @@ class GameAddView(QtWidgets.QDialog):
         self.platformEdit.setText(self.model.platform)
         self.ratingEdit.setText(self.model.rating)
         self.reviewEdit.setText(self.model.review)
-        self.reviewEdit.setAlignment(Qt.AlignJustify)
+        self.reviewEdit.setAlignment(Qt.AlignmentFlag.AlignJustify)
         self.reviewEdit.setAcceptDrops(False)
         
-        self.imageLabel.setAlignment(Qt.AlignCenter)
+        self.imageLabel.setAlignment(Qt.AlignmentFlag.AlignCenter)
         self.setImage(self.model.image_url)
         
     def dragEnterEvent(self, event):
@@ -92,7 +92,7 @@ class GameAddView(QtWidgets.QDialog):
         elif not self._pixmap.load(Configuration.ImageDatabasePath() + self.model.image_url):
             self._pixmap = Configuration.MissingPixmap()
         
-        self.imageLabel.setPixmap(self._pixmap.scaled(self.imageLabel.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        self.imageLabel.setPixmap(self._pixmap.scaled(self.imageLabel.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
     
     def moveTo(self):
         
@@ -100,7 +100,7 @@ class GameAddView(QtWidgets.QDialog):
     
     def resizeEvent(self, e):
     
-        self.imageLabel.setPixmap(self._pixmap.scaled(self.imageLabel.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        self.imageLabel.setPixmap(self._pixmap.scaled(self.imageLabel.size(), Qt.AspectRatioMode.KeepAspectRatio, Qt.TransformationMode.SmoothTransformation))
             
     def save(self):
     
